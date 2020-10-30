@@ -1,0 +1,73 @@
+import React, { useState } from 'react'
+
+function Products(props) {
+    
+    const plopperPrice = 25.99
+    const [plopperCount, setPlopperCount] = useState(0)
+    function addPlopper() {
+        setPlopperCount(prevPlopper => prevPlopper + 1)
+    }
+    function minusPlopper() {
+        setPlopperCount(prevPlopper => prevPlopper - 1)
+    }
+    const plopperTotal = Number((plopperPrice * plopperCount).toFixed(2))
+
+
+    const jigPrice = 20.99
+    const [jigCount, setJigCount] = useState(0)
+    function addJig() {
+        setJigCount(prevjig => prevjig + 1)
+    }
+    function minusJig() {
+        setJigCount(prevjig => prevjig - 1)
+    }
+    const jigTotal = Number((jigPrice * jigCount).toFixed(2))
+
+
+    const spoonPrice = 15.99
+    const [spoonCount, setSpoonCount] = useState(0)
+    function addSpoon() {
+        setSpoonCount(prevSpoon => prevSpoon + 1)
+    }
+    function minusSpoon() {
+        setSpoonCount(prevSpoon => prevSpoon - 1)
+    }
+    const spoonTotal = Number((spoonPrice * spoonCount).toFixed(2))
+
+    const subTotal = Number((plopperTotal + jigTotal + spoonTotal).toFixed(2))
+    const stateTax = Number((subTotal * .06).toFixed(2))
+    const grandTotal = Number((subTotal + Number(stateTax)).toFixed(2))
+    props.changeRunningTotal(subTotal)
+    
+    const Products = [
+        { "name": "Whopper Plopper", "price": plopperPrice, "minus": minusPlopper, "plus": addPlopper, "count": plopperCount, "total": plopperTotal },
+        { "name": "Spin Jig", "price": jigPrice, "minus": minusJig, "plus": addJig, "count": jigCount, "total": jigTotal },
+        { "name": "Jiggin' Spoon", "price": spoonPrice, "minus": minusSpoon, "plus": addSpoon, "count": spoonCount, "total": spoonTotal },
+    ]
+
+    return (
+        <div>
+            <h1 className="bg-success text-white text-center">🐟Products🐟</h1>
+            <ul className="list-group">
+                {Products.map((item, i) =>
+                    <li key={i} id={i} className="list-group-item d-flex justify-content-between text-center">{item.name}({item.price})
+                    <div className="d-flex align-items-center">
+                        <button onClick={() => item.minus()} className="btn-fluid btn-success">-</button>
+                        <p className="align-self-center"><b>{item.count}</b></p>
+                        <button onClick={() => item.plus()} className="btn-fluid btn-success">+</button>
+                    </div>
+                    <p>${item.total}</p>
+                </li>
+                )}
+                
+            </ul>
+            <ul className="list-group list-group-flush">
+                <li className="list-group-item text-right">Order Subtotal ${subTotal}</li>
+                <li className="list-group-item text-right">KY Sales Tax ${stateTax}</li>
+                <li className="list-group-item text-right">Grand Total ${grandTotal}</li>
+            </ul>
+        </div>
+    )
+}
+
+export default Products
